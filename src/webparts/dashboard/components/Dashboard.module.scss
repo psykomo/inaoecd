@@ -1,0 +1,131 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.dashboard {
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+
+.welcome {
+  text-align: center;
+}
+
+.welcomeImage {
+  width: 100%;
+  max-width: 420px;
+}
+
+.links {
+  a {
+    text-decoration: none;
+    color: "[theme:link, default:#03787c]";
+    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+
+    &:hover {
+      text-decoration: underline;
+      color: "[theme:linkHovered, default: #014446]";
+      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+    }
+  }
+}
+
+.chartContainer {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: "[theme:white, default: #ffffff]";
+  border: 1px solid "[theme:neutralLight, default: #edebe9]";
+  border-radius: 4px;
+}
+
+.chartTitle {
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid "[theme:neutralLight, default: #edebe9]";
+  margin-bottom: 20px;
+}
+
+.headerTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.navMenu {
+  display: flex;
+  gap: 5px;
+}
+
+.navItem {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: "[theme:bodyText, default: #323130]";
+  border-radius: 4px;
+  font-weight: 400;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: "[theme:neutralLighter, default: #f3f2f1]";
+    color: "[theme:themePrimary, default: #0078d4]";
+  }
+
+  &.active {
+    background-color: "[theme:neutralLight, default: #edebe9]";
+    color: "[theme:themePrimary, default: #0078d4]";
+    font-weight: 600;
+  }
+}
+
+.navButton {
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background-color: "[theme:themePrimary, default: #0078d4]";
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-weight: 600;
+  
+  &:hover {
+    background-color: "[theme:themeDark, default: #005a9e]";
+  }
+}
+
+.barChart {
+  display: flex;
+  align-items: flex-end;
+  height: 200px;
+  gap: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid "[theme:neutralTertiary, default: #a19f9d]";
+}
+
+.bar {
+  flex: 1;
+  background-color: "[theme:themePrimary, default: #0078d4]";
+  min-width: 30px;
+  transition: height 0.3s ease;
+  position: relative;
+  
+  &:hover {
+    background-color: "[theme:themeDark, default: #005a9e]";
+  }
+}
+
+.barLabel {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+}

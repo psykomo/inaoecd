@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "inaoecd-client-side-solution",
+    "id": "98cad6aa-dc86-4fed-9241-33326c740f4a",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.22.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "inaoecd description"
+      },
+      "longDescription": {
+        "default": "inaoecd description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "inaoecd Feature",
+        "description": "The feature that activates elements of the inaoecd solution.",
+        "id": "520ff733-9cfb-443e-9784-6a0a6e91960b",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/inaoecd.sppkg"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "useGulp": false,
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.22.0",
+    "sdksVersions": {},
+    "version": "1.22.2",
+    "libraryName": "inaoecd",
+    "libraryId": "98cad6aa-dc86-4fed-9241-33326c740f4a",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "inaoecd",
+    "solutionShortDescription": "inaoecd description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
