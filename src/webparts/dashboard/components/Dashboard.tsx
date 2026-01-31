@@ -9,6 +9,7 @@ import { QuestionnaireDetailView } from './QuestionnaireDetailView';
 import { QuestionnaireFormView } from './QuestionnaireFormView';
 import { FollowUpsView } from './FollowUpsView';
 import { FollowUpFormView } from './FollowUpFormView';
+import { DocumentsView } from './DocumentsView';
 import { HomeView } from './HomeView';
 
 export default class Dashboard extends React.Component<IDashboardProps> {
@@ -53,6 +54,12 @@ export default class Dashboard extends React.Component<IDashboardProps> {
               >
                 Follow ups
               </NavLink>
+              <NavLink 
+                to="/documents" 
+                className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
+              >
+                Documents
+              </NavLink>
             </nav>
           </header>
 
@@ -70,6 +77,7 @@ export default class Dashboard extends React.Component<IDashboardProps> {
             <Route path="/followups" element={<FollowUpsView />} />
             <Route path="/followup/new" element={<FollowUpFormView />} />
             <Route path="/followup/edit/:id" element={<FollowUpFormView />} />
+            <Route path="/documents" element={<DocumentsView spHttpClient={spHttpClient} siteUrl={siteUrl} />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
 

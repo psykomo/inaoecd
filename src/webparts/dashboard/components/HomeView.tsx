@@ -35,6 +35,13 @@ export const HomeView: React.FC = () => {
               <div style={{ fontSize: '12px', color: '#605e5c' }}>Track OECD requests</div>
             </div>
           </Link>
+          <Link to="/documents" style={{ textDecoration: 'none' }}>
+            <div className={styles.navItem} style={{ border: '1px solid #edebe9', padding: '20px', textAlign: 'center' }}>
+              <div style={{ fontSize: '24px', marginBottom: '10px' }}>📁</div>
+              <div style={{ fontWeight: 600 }}>Documents</div>
+              <div style={{ fontSize: '12px', color: '#605e5c' }}>Shared library files</div>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
