@@ -1,9 +1,15 @@
 import * as React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import styles from './Dashboard.module.scss';
 import { QuestionnaireService, IQuestionnaire, MASTER_SECTIONS } from './QuestionnaireService';
 
-export const QuestionnaireFormView: React.FC = () => {
+interface IQuestionnaireFormViewProps {
+  spHttpClient: SPHttpClient;
+  siteUrl: string;
+}
+
+export const QuestionnaireFormView: React.FC<IQuestionnaireFormViewProps> = ({ spHttpClient, siteUrl }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEditMode = !!id;
@@ -22,6 +28,8 @@ export const QuestionnaireFormView: React.FC = () => {
     dateSubmittedToOECD: ''
   });
 
+  const [isUploading, setIsUploading] = React.useState(false);
+
   React.useEffect(() => {
     if (isEditMode) {
       const data = QuestionnaireService.getQuestionnaireById(id);
@@ -33,6 +41,58 @@ export const QuestionnaireFormView: React.FC = () => {
       }
     }
   }, [id, isEditMode, navigate]);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      
+      // SharePoint REST API to upload file
+      // overwrite=false to satisfy the requirement
+      const endpoint = `${siteUrl}/_api/web/getfolderbyserverrelativeurl('/Shared Documents')/files/add(url='${file.name}', overwrite=false)`;
+      
+      const response: SPHttpClientResponse = await spHttpClient.post(
+        endpoint,
+        SPHttpClient.configurations.v1,
+        {
+          headers: {
+            'Accept': 'application/json;odata=nometadata',
+            'Content-Type': 'application/octet-stream'
+          },
+          body: file
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        // result.ServerRelativeUrl contains the path
+        // We can prepend the protocol and host if needed, but relative is usually better for SP
+        setFormData(prev => ({
+          ...prev,
+          url: result.ServerRelativeUrl
+        }));
+        alert(`File uploaded successfully: ${file.name}`);
+      } else {
+        const error = await response.json();
+        const errorMessage = error['odata.error']?.message?.value || response.statusText;
+        
+        if (response.status === 400 || errorMessage.indexOf('already exists') !== -1) {
+            alert(`A file named "${file.name}" already exists in the library. Please rename your file and try again.`);
+        } else {
+            throw new Error(errorMessage);
+        }
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+      alert(`Error uploading file: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setIsUploading(false);
+      // Clear the input
+      event.target.value = '';
+    }
+  };
 
   const handleSave = (): void => {
     if (!formData.title || !formData.url) {
@@ -82,16 +142,54 @@ export const QuestionnaireFormView: React.FC = () => {
               placeholder="Enter questionnaire title"
             />
           </div>
+
           <div style={{ gridColumn: 'span 2' }}>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 600 }}>URL</label>
-            <input 
-              type="text" 
-              value={formData.url}
-              onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-              style={{ width: '100%', padding: '10px', border: '1px solid #ddd', borderRadius: '4px' }}
-              placeholder="https://..."
-            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
+                <label style={{ fontWeight: 600 }}>Document URL</label>
+                <span style={{ fontSize: '12px', color: '#605e5c' }}>Upload a file to generate URL automatically</span>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+                <input 
+                    type="text" 
+                    value={formData.url}
+                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                    style={{ flex: 1, padding: '10px', border: '1px solid #ddd', borderRadius: '4px' }}
+                    placeholder="https://..."
+                />
+                <div style={{ position: 'relative' }}>
+                    <button 
+                        type="button"
+                        disabled={isUploading}
+                        style={{ 
+                            padding: '10px 15px', 
+                            backgroundColor: '#0078d4', 
+                            color: 'white', 
+                            border: 'none', 
+                            borderRadius: '4px', 
+                            cursor: isUploading ? 'not-allowed' : 'pointer',
+                            opacity: isUploading ? 0.7 : 1
+                        }}
+                    >
+                        {isUploading ? 'Uploading...' : '📁 Upload File'}
+                    </button>
+                    <input 
+                        type="file" 
+                        onChange={handleFileUpload}
+                        disabled={isUploading}
+                        style={{ 
+                            position: 'absolute', 
+                            top: 0, 
+                            left: 0, 
+                            width: '100%', 
+                            height: '100%', 
+                            opacity: 0, 
+                            cursor: 'pointer' 
+                        }} 
+                    />
+                </div>
+            </div>
           </div>
+
           <div>
             <label style={{ display: 'block', marginBottom: '5px', fontWeight: 600 }}>Batch ID</label>
             <input 

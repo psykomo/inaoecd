@@ -10,6 +10,7 @@ import { QuestionnaireFormView } from './QuestionnaireFormView';
 import { FollowUpsView } from './FollowUpsView';
 import { FollowUpFormView } from './FollowUpFormView';
 import { DocumentsView } from './DocumentsView';
+import { UserProfileView } from './UserProfileView';
 import { HomeView } from './HomeView';
 
 export default class Dashboard extends React.Component<IDashboardProps> {
@@ -64,20 +65,26 @@ export default class Dashboard extends React.Component<IDashboardProps> {
           </header>
 
           <div className={styles.welcome} style={{ marginBottom: '20px' }}>
-            <p>Welcome back, <strong>{escape(userDisplayName)}</strong>!</p>
+            <p>
+              Welcome back, 
+              <Link to="/profile" style={{ textDecoration: 'none', color: '[theme:themePrimary, default: #0078d4]', fontWeight: 600, marginLeft: '5px' }}>
+                {escape(userDisplayName)}
+              </Link>!
+            </p>
           </div>
 
           <Routes>
             <Route path="/" element={<HomeView />} />
             <Route path="/summary" element={<SummaryView />} />
             <Route path="/questionnaires" element={<QuestionnairesView />} />
-            <Route path="/questionnaire/new" element={<QuestionnaireFormView />} />
-            <Route path="/questionnaire/edit/:id" element={<QuestionnaireFormView />} />
+            <Route path="/questionnaire/new" element={<QuestionnaireFormView spHttpClient={spHttpClient} siteUrl={siteUrl} />} />
+            <Route path="/questionnaire/edit/:id" element={<QuestionnaireFormView spHttpClient={spHttpClient} siteUrl={siteUrl} />} />
             <Route path="/questionnaire/:id" element={<QuestionnaireDetailView />} />
             <Route path="/followups" element={<FollowUpsView />} />
             <Route path="/followup/new" element={<FollowUpFormView />} />
             <Route path="/followup/edit/:id" element={<FollowUpFormView />} />
             <Route path="/documents" element={<DocumentsView spHttpClient={spHttpClient} siteUrl={siteUrl} />} />
+            <Route path="/profile" element={<UserProfileView spHttpClient={spHttpClient} siteUrl={siteUrl} userDisplayName={userDisplayName} />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
 

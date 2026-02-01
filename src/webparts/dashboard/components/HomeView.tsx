@@ -10,7 +10,7 @@ export const HomeView: React.FC = () => {
           Welcome to INA OECD - POST IM
         </h1>
         <p style={{ fontSize: '16px', color: '[theme:neutralSecondary, default: #605e5c]', maxWidth: '600px', margin: '0 auto 30px' }}>
-          Integrated Information Management and Tracking System for OECD Standards and Post-Implementation Reviews.
+          Integrated Information Management and Tracking System for OECD Post Initial Memorandum (IM).
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginTop: '40px' }}>
